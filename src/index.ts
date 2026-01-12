@@ -7,7 +7,7 @@ import { pool } from "./database.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Middlewares Zones
 
@@ -291,7 +291,7 @@ app.get("/test-error", (req, res) => {
 
 //Starts the server and listens for incoming requests
 app.listen(PORT, () => {
-    console.log(`Hello my dear server http://localhost:${PORT}`)
+    console.log(`Hello my newest server http://localhost:${PORT}`)
 })
 
 /*
