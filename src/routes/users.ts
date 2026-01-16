@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { pool } from "../database.js";
 import { User } from "../interface.js";
+import { validateUserId , validateRequiredUserData } from "../middleware/user-validation.js";
 
 const router = Router();
 
@@ -29,7 +30,7 @@ const router = Router();
  *       500:
  *         description: Server error
  */
-router.get("/", async (req, res) => {
+router.get("/", validateRequiredUserData , async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
@@ -85,7 +86,7 @@ router.get("/", async (req, res) => {
  *       500:
  *         description: Server error
  */
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateUserId , async (req, res) => {
   try {
     const userId = Number(req.params.id);
 

@@ -14,7 +14,7 @@ export function validateUserId(res: Response, req: Request, next: NextFunction) 
 
 // Validate if fully body data is valid
 // for PUT/DELETE request
-export function validateRequiredUserId(res: Response , req: Request , next: NextFunction) {
+export function validateRequiredUserData(res: Response , req: Request , next: NextFunction) {
     const { id , email } = req.body;
 
     if ( !email ) {
@@ -25,8 +25,3 @@ export function validateRequiredUserId(res: Response , req: Request , next: Next
 }
 
 
-// Validate partial data from the user
-// For PATCH request
-export function validatePartialUserId () {
-
-}
