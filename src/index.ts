@@ -7,9 +7,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import userRouter from "./routes/users.js";
 import articleRouter from "./routes/articles.js";
-
-
-
+import authRouter from "./routes/auth.js";
 
 dotenv.config();
 
@@ -59,7 +57,7 @@ function checkAuth(req:Request,res:Response,next:NextFunction) {
 
 app.use("/users", userRouter);
 app.use("/articles", articleRouter);
-
+app.use("/auth", authRouter);
 
 
 // Route example error

@@ -1,7 +1,13 @@
 export interface User {
     id: number;
     email: string;
+    password_hash: string,
     createdAt: string;
+}
+
+export interface UserResponse {
+    id: number;
+    email: string;
 }
 
 export interface Article {
