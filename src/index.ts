@@ -39,20 +39,6 @@ app.use(cors());
 
 // API documentation endpoint
 
-
-
-// CheckAuth MIddleware function
-function checkAuth(req:Request,res:Response,next:NextFunction) {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        return res.status(401).json({error: "Missing authorization"});
-    }
-    if ( authHeader !== "Bearer secret123") {
-        return res.status(403).json({error: "Access Denied"});
-    }
-    next();
-}   
-
 // Connect route modules
 
 app.use("/users", userRouter);
