@@ -1,7 +1,7 @@
 import { Response , Request , NextFunction } from "express";
 
 // Validate if userId is valid
-export function validateUserId(res: Response, req: Request, next: NextFunction) {
+export function validateUserId( req: Request, res: Response, next: NextFunction) {
     
     const userId = Number(req.params.id);
 

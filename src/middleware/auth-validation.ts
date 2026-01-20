@@ -30,6 +30,7 @@ export function validateRegistration (req: Request, res: Response, next: NextFun
             details: result.error.issues.map((issue) => issue.message)
         })
    };
+   next()
 }
 
 // Validate login function
@@ -42,6 +43,8 @@ export function validateLogin (req: Request, res: Response , next: NextFunction)
         error: "Validation Failed",
         details: result.error.issues.map((issue) => issue.message)
     })};
+
+    next();
 }
 
 export function authenticateToken (req: Request, res: Response , next: NextFunction) {
@@ -54,7 +57,7 @@ export function authenticateToken (req: Request, res: Response , next: NextFunct
         });
     }
 
-    if (!authHeader.startsWith("Bearer "))  {
+    if (!authHeader.startsWith("Bearer"))  {
         return res.status(401).json({
             error: "Token must be in format: Bearer <token>",
         })

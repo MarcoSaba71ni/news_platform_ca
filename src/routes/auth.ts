@@ -4,7 +4,7 @@ import { ResultSetHeader } from "mysql2";
 import { validateRegistration , validateLogin  } from "../middleware/auth-validation.js";
 import { User , UserResponse } from "../interface.js";
 import bcrypt from "bcrypt";
-import { validateToken , generateToken } from "../utils/jwt.js";
+import { generateToken } from "../utils/jwt.js";
 
 const router = Router();
 
@@ -65,7 +65,7 @@ router.post("/login", validateLogin , async (req, res) => {
         const users = rows as User [];
 
         // 3. User not found
-        if(users.length === 0) {
+        if (users.length === 0) {
             return res.status(401).
             json({error: "Invalid email or password"})
         }
@@ -77,7 +77,7 @@ router.post("/login", validateLogin , async (req, res) => {
         const validPassword = await bcrypt.compare(password , user.password_hash);
 
         if(!validPassword) {
-            return res.json(401).json({
+            return res.status(401).json({
                 error: "Invalid email or password"
             })
         }
@@ -92,7 +92,8 @@ router.post("/login", validateLogin , async (req, res) => {
         // Return response
         res.status(200).json({
             message: "Login successful",
-            userId: user.id
+            token,
+            user: userResponse
         })
 
     } catch(error) {

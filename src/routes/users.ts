@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { pool } from "../database.js";
-import { User } from "../interface.js";
+import { User, UserResponse } from "../interface.js";
 import { validateUserId , validateRequiredUserData } from "../middleware/user-validation.js";
+import { authenticateToken } from "../middleware/auth-validation.js";
 
 const router = Router();
 
@@ -30,7 +31,7 @@ const router = Router();
  *       500:
  *         description: Server error
  */
-router.get("/", validateRequiredUserData , async (req, res) => {
+router.get("/",  async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
@@ -57,6 +58,7 @@ router.get("/", validateRequiredUserData , async (req, res) => {
       results: users.length,
       data: users,
     });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -95,13 +97,14 @@ router.get("/:id", validateUserId , async (req, res) => {
       [userId]
     );
 
-    const users = rows as User[];
+    const users = rows as UserResponse[];
 
     if (users.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
 
     res.json(users[0]);
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -109,5 +112,30 @@ router.get("/:id", validateUserId , async (req, res) => {
     });
   }
 });
+
+router.patch("/:id",
+  authenticateToken,
+  validateUserId,
+  // validatePartialUserData
+   async (req, res) => {
+  const userId = Number(req.params.id);
+  const { email , password} = req.body;
+
+
+  // Check if user is trying to update their own account
+  if (req.user!.id !== userId) {
+      return res.status(403).json({
+        error: "Users can only update their own account",
+      });
+  }
+
+  const [rows] = await pool.execute(`
+    SELECT id, email, createdAt FROM users WHERE id = ?`,
+    userId);
+
+  const users = rows as UserResponse[];
+  const user = users[0];
+});
+
 
 export default router;

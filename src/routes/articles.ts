@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { pool } from "../database.js";
 import { Article } from "../interface.js";
+import { validateUserId } from "../middleware/validation.js";
 
 const router = Router();
 
@@ -90,15 +91,11 @@ router.get("/", async (req, res) => {
  *       500:
  *         description: Server error
  */
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateUserId ,  async (req, res) => {
   try {
     const articleId = Number(req.params.id);
 
-    if (isNaN(articleId)) {
-      return res.status(400).json({
-        error: "Invalid article id",
-      });
-    }
+
 
     const [rows] = await pool.execute(
       `
