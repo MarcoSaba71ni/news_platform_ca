@@ -59,16 +59,16 @@ app.listen(PORT, () => {
 /*
 
 access endpoints
-POST    /auth/register  
-POST    /auth/login
+POST    /auth/register    DONE!
+POST    /auth/login       DONE!
 
 users endpoints
-GET    /users           → list users (pagination)    DONE!
-GET    /users/:id       → single user    DONE!
+GET    /users           → list users (pagination)      DONE!
+GET    /users/:id       → single user                  DONE!
 
 articles endpoints
-GET    /articles            → list articles    DONE!
-GET    /articles/:id        → single article    DONE!
+GET    /articles            → list articles (pagination)    DONE!
+GET    /articles/:id        → single article                DONE!
 POST   /articles            → create article (protected)
 PATCH  /articles/:id        → update article (protected)
 DELETE /articles/:id        → delete article (protected) 
