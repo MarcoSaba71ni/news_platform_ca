@@ -4,15 +4,33 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>News Platform || Main Page</title>
+        <link rel="stylesheet" href="../css/output.css">
     </head>
-    <body class="bg-black min-h-screen">
-        <header class="p-4 bg-[#00E0AC] flex justify-center">
+    <body class=" min-h-screen">
+        <header class="p-2 bg-[#00E0AC] flex justify-center">
             <img src="../../images/meddle- logo.png"
             class="w-32 h-16 object-contain">
         </header>
-        <main class="p-4 text-white">
-            <h1 class="text-3xl font-bold mb-4">Welcome to the News Platform</h1>
-            <p class="mb-2">Stay updated with the latest news articles from around the world.</p>
-            <a href="/articles" class="text-blue-500 underline">View Articles</a>
+        <section class="flex flex-col justify-center p-4">
+            <div class="flex flex-col justify-center mx-auto">
+                <h1 class="text-3xl font-bold mb-4">Welcome to the News Platform</h1>
+                <p class="mb-2">Stay updated with the latest news articles from around the world.</p>
+            </div>
+            <div class="mx-auto text-gray-500" id="auth-status">
+                <p>You are not logged in. 
+                    <a href="./register.html" class=" cursor-pointer text-blue-500">Register</a>
+                     or <a href="./login" class=" cursor-pointer text-blue-500">Sign In</a></p>
+            </div>
+        </section>
+        <main>
+            <section class="ml-4 p-4">
+                <h2 class="text-2xl font-semibold mb-4">Latest News Articles</h2>
+                <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- News articles will be dynamically inserted here -->
+                </div>
+            </section>
+        </main>
+
+            <script src="../js/main.js"></script>
     </body>
 </html>
