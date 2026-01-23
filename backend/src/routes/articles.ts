@@ -42,6 +42,8 @@ router.get("/", async (req, res) => {
         articles.body,
         articles.category,
         articles.createdAt,
+        articles.media_url,
+        articles.media_alt,
         users.id AS user_id,
         users.email
       FROM articles
@@ -95,8 +97,6 @@ router.get("/:id", validateUserId ,  async (req, res) => {
   try {
     const articleId = Number(req.params.id);
 
-
-
     const [rows] = await pool.execute(
       `
       SELECT 
@@ -105,6 +105,8 @@ router.get("/:id", validateUserId ,  async (req, res) => {
         articles.body,
         articles.category,
         articles.createdAt,
+        articles.media_url,
+        articles.media_alt,
         users.id AS user_id,
         users.email
       FROM articles

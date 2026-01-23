@@ -15,8 +15,9 @@ export interface Article {
     title: string;
     body: string;
     category: string;
-    submited_by: number;
-    createdAt: string
+    createdAt: string;
+    media_url: string | null;
+    media_alt: string | null;
 }
 
 export interface ArticleWithUser extends Article {
