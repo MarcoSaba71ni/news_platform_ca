@@ -27,7 +27,7 @@ export async function apiGet(endpoint) {
     }
 }
 
-export async function apiPost(endpoint) {
+export async function apiPost(endpoint, data) {
     const token = localStorage.getItem('token');
     const options = {
         method: 'POST',
@@ -42,13 +42,13 @@ export async function apiPost(endpoint) {
     };
 
     try {
-        const response = await fetch('${API_BASE}${endpoint}', options);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log('API POST response data:', data);
-        return data.data;
+        const response = await fetch(`${API_BASE}${endpoint}`, options);
+    if (!response.ok) {
+        throw new Error(response.message || 'Request failed');
+    }
+        const responseData = await response.json();
+        console.log('API POST response data:', responseData);
+        return { status: response.status, data: responseData };
     } catch (error) {
         console.error("API POST request failed:", error);
         throw error;
