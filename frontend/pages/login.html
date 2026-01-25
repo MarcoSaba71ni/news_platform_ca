@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Login Page Meddle" />
+  <title>Login || Meddle</title>
+  <link rel="stylesheet" href="../css/output.css">
+</head>
+
+<body
+  class="min-h-screen flex flex-col items-center justify-center
+         bg-[#00E0AC] text-[#1B0D6F] font-sans text-center"
+>
+
+  <!-- Logo -->
+  <nav>
+    <img
+      src="../../images/meddle- logo.png"
+      alt="Meddle logo"
+      class="mx-auto w-70"
+    />
+  </nav>
+
+  <!-- Main -->
+  <main class="w-full max-w-md">
+    <h1 class="text-3xl font-bold mb-2">Login</h1>
+    <p class="mb-4">
+      Don’t have an account?
+      <a class="underline" href="register.html">Register</a>
+    </p>
+
+    <form
+      id="login-form"
+      class="flex flex-col gap-4 mx-auto items-center"
+    >
+
+      <!-- Email -->
+      <div class="w-[300px] flex flex-col gap-1">
+        <label for="email" class="text-left text-sm">Email</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Write your email"
+          class="h-[35px] bg-[#1B0D6F] text-white
+                 border border-black rounded-md px-3"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="w-[300px] flex flex-col gap-1">
+        <label for="password" class="text-left text-sm">Password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Write your password"
+          class="h-[35px] bg-[#1B0D6F] text-white
+                 border border-black rounded-md px-3"
+        />
+      </div>
+
+      <!-- Button -->
+      <button
+        type="submit"
+        id="login-btn"
+        class="mt-4 w-[105px] h-[50px] rounded-xl text-[22px]
+               bg-[#1B0D6F] hover:bg-[#d9d7df]
+               text-white hover:text-[#1B0D6F]
+               transition-colors cursor-pointer"
+      >
+        Login
+      </button>
+
+    </form>
+  </main>
+
+  <script type="module" src="../js/src/login.js"></script>
+</body>
+</html>
