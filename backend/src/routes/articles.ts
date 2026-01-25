@@ -2,6 +2,8 @@ import { Router } from "express";
 import { pool } from "../database.js";
 import { Article } from "../interface.js";
 import { validateUserId } from "../middleware/validation.js";
+import { validateCreateArticle } from "../middleware/article-validation.js";
+import { authenticateToken } from "../middleware/auth-validation.js";
 
 const router = Router();
 
@@ -132,5 +134,40 @@ router.get("/:id", validateUserId ,  async (req, res) => {
     });
   }
 });
+
+router.post("/", authenticateToken, validateCreateArticle, async (req, res) => {
+  try {
+
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    
+    const { title, body, category, media_url, media_alt } = req.body;
+    const user_id = req.user.id;
+
+    const [result] = await pool.execute(
+      `INSERT INTO articles (title, body, category, media_url, media_alt, user_id)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [title, body, category, media_url, media_alt, user_id]
+    );
+
+    const article = {
+      id: (result as any).insertId,
+      title,
+      body,
+      category,
+      media_url,
+      media_alt,
+      user_id,
+      createdAt: new Date().toISOString(),
+    };
+
+    res.status(201).json(article);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to create article" });
+  }
+});
+
 
 export default router;

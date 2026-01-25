@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News Platform || Create Article</title>
+    <link rel="stylesheet" href="../css/output.css" />
+  </head>
+
+  <body class="min-h-screen">
+    <header class="relative p-2 bg-[#00E0AC] flex items-center justify-center">
+      <a href="./index.html">
+        <img
+          src="../../images/meddle- logo.png"
+          class="w-32 h-16 object-contain"
+          alt="Meddle logo"
+        />
+      </a>
+
+      <button
+        id="logout-btn"
+        class="absolute right-4 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 hidden"
+      >
+        Logout
+      </button>
+    </header>
+
+    <section class="flex flex-col justify-center p-4">
+      <div class="flex flex-col justify-center mx-auto">
+        <h1 class="text-3xl font-bold mb-4">Create a New Article</h1>
+      </div>
+
+      <div class="mx-auto w-full max-w-lg">
+        <form
+          id="create-article-form"
+          class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        >
+          <!-- TITLE -->
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Title
+            </label>
+            <input
+              id="title"
+              type="text"
+              placeholder="Article Title"
+              class="shadow appearance-none border rounded w-full py-2 px-3"
+              required
+            />
+          </div>
+
+          <!-- BODY -->
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Content
+            </label>
+            <textarea
+              id="body"
+              rows="8"
+              placeholder="Write your article content here..."
+              class="shadow appearance-none border rounded w-full py-2 px-3"
+              required
+            ></textarea>
+          </div>
+
+          <!-- CATEGORY -->
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Category
+            </label>
+            <input
+              id="category"
+              type="text"
+              placeholder="e.g. Technology, Politics"
+              class="shadow appearance-none border rounded w-full py-2 px-3"
+            />
+          </div>
+
+          <!-- MEDIA URL -->
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Media URL
+            </label>
+            <input
+              id="media_url"
+              type="url"
+              placeholder="https://example.com/image.jpg"
+              class="shadow appearance-none border rounded w-full py-2 px-3"
+            />
+          </div>
+
+          <!-- MEDIA ALT -->
+          <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Media Alt Text
+            </label>
+            <input
+              id="media_alt"
+              type="text"
+              placeholder="Description of the image"
+              class="shadow appearance-none border rounded w-full py-2 px-3"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-[#00E0AC] text-white cursor-pointer font-bold py-2 px-4 rounded hover:opacity-90"
+          >
+            Create Article
+          </button>
+
+          <p id="message" class="text-center mt-4 text-sm"></p>
+        </form>
+      </div>
+    </section>
+
+    <script src="../js/src/createArticle.js" type="module"></script>
+  </body>
+</html>
