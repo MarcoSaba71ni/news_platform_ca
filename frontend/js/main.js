@@ -2,6 +2,7 @@ import { fetchArticles } from "./api/articles.js";
 import { renderArticles } from "./render/renderArticles.js";    
 
 const authStatusDiv = document.getElementById('auth-status');
+const logoutBtn = document.getElementById('logout-btn');
 
 // Function to check authentication status
 function checkAuthStatus() {
@@ -9,6 +10,7 @@ function checkAuthStatus() {
 
     if(token) {
         authStatusDiv.classList.add('hidden');
+        logoutBtn.classList.remove('hidden');
     };
 };
 
@@ -25,11 +27,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     loadArticles();
 });
 
-const logoutBtn = document.getElementById('logout-btn');
+
 if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('token');
         localStorage.removeItem('user');   
+        alert('You have been logged out');
         window.location.href = '../pages/index.html';
     });
 };

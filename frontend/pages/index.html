@@ -7,15 +7,25 @@
         <link rel="stylesheet" href="../css/output.css">
     </head>
     <body class=" min-h-screen">
-        <header class="p-2 bg-[#00E0AC] flex justify-center">
-            <a href="index.html">
-                <img src="../../images/meddle- logo.png"
-            class="w-32 h-16 object-contain">
-            </a>
-            <button id="logout-btn" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-                Logout
-            </button>
-        </header>
+    <header class="relative p-2 bg-[#00E0AC] flex items-center justify-center">
+        <!-- Centered logo -->
+        <a href="index.html">
+            <img 
+                src="../../images/meddle- logo.png"
+                class="w-32 h-16 object-contain"
+                alt="Meddle logo"
+            />
+        </a>
+
+        <!-- Logout button on far right -->
+        <button
+            id="logout-btn"
+            class="absolute right-4 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 hidden"
+        >
+            Logout
+        </button>
+    </header>
+
         <section class="flex flex-col justify-center p-4">
             <div class="flex flex-col justify-center mx-auto">
                 <h1 class="text-3xl font-bold mb-4">Welcome to the News Platform</h1>
@@ -24,7 +34,7 @@
             <div class="mx-auto text-gray-500" id="auth-status">
                 <p>You are not logged in. 
                     <a href="./register.html" class=" cursor-pointer text-blue-500">Register</a>
-                     or <a href="./login" class=" cursor-pointer text-blue-500">Sign In</a></p>
+                     or <a href="./login.html" class=" cursor-pointer text-blue-500">Sign In</a></p>
             </div>
         </section>
         <main>
@@ -34,6 +44,9 @@
                     <!-- News articles will be dynamically inserted here -->
                 </div>
             </section>
+            <div class="flex justify-center mb-4">
+                <button id="load-more-btn" class="bg-[#00E0AC] text-xl rounded-md px-3 py-2 text-blue-500 font-semibold cursor-pointer">Load More</button>
+            </div>
         </main>
 
             <script src="../js/main.js" type="module"></script>
