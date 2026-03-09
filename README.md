@@ -108,3 +108,7 @@ Understanding of the trade-offs between custom APIs and backend-as-a-service sol
 
 This project was developed for educational purposes as part of the Development Platforms course.
 Other features related to updating, deleting, creation shall be implemented in the future for portfolio purposes.
+
+The article creation endpoint is fully implemented and tested. Frontend integration was started but not fully finalised due to time constraints.
+
+An exported MySQL database schema is included in `news_plaform.sql`.
