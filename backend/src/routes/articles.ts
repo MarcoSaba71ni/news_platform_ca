@@ -66,6 +66,11 @@ router.get("/", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    if (error instanceof Error) {
+      console.error("MESSAGE:", error.message);
+      console.error("STACK:", error.stack);
+    }
+    
     res.status(500).json({
       error: "Failed to fetch articles",
     });

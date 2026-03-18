@@ -54,7 +54,7 @@ app.get("/test-error", (req, res) => {
 pool.getConnection()
   .then(() => console.log("✅ Connected to Railway MySQL"))
   .catch(err => console.error("❌ Database connection failed:", err));
-//Starts the server and listens for incoming requests
+
 app.listen(PORT, () => {
     console.log(`Hello my newest server http://localhost:${PORT}`)
 })
