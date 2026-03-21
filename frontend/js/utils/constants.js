@@ -1,1 +1,1 @@
-export const API_BASE = "https://news-platform-ca.onrender.com";
+export const API_BASE = "https://newsplatformca-production.up.railway.app";
