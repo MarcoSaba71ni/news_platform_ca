@@ -16,7 +16,7 @@ loginForm.addEventListener('submit', async (event) => {
 
         if (result.data.token) {
             saveToken(result.data.token, result.data.user);
-            window.location.href = "./index.html"; // ignore the page feed.html, doenst exist
+            window.location.href = "../index.html"; // ignore the page feed.html, doenst exist
         } else if (result.errors?.[0]) {
             alert("Unexpected error: " + error.message);
         }

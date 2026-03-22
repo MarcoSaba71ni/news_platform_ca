@@ -4,28 +4,26 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>News Platform || Main Page</title>
-        <link rel="stylesheet" href="../css/output.css">
+        <link rel="stylesheet" href="css/output.css">
     </head>
     <body class=" min-h-screen">
-    <header class="relative p-2 bg-[#00E0AC] flex items-center justify-center">
-        <!-- Centered logo -->
-        <a href="index.html">
-            <img 
-                src="../../images/meddle- logo.png"
-                class="w-32 h-16 object-contain"
-                alt="Meddle logo"
-            />
-        </a>
-
-        <!-- Logout button on far right -->
-        <button
-            id="logout-btn"
-            class="absolute right-4 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 hidden"
-        >
-            Logout
-        </button>
-    </header>
-
+        <header class="relative p-2 bg-[#00E0AC] flex items-center justify-center">
+            <!-- Centered logo -->
+            <a href="index.html">
+                <img 
+                    src="../images/meddle- logo.png"
+                    class="w-32 h-16 object-contain"
+                    alt="Meddle logo"
+                />
+            </a>
+            <!-- Logout button on far right -->
+            <button
+                id="logout-btn"
+                class="absolute right-4 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 hidden"
+            >
+                Logout
+            </button>
+        </header>
         <section class="flex flex-col justify-center p-4">
             <div class="flex flex-col justify-center mx-auto">
                 <h1 class="text-3xl font-bold mb-4">Welcome to the News Platform</h1>
@@ -33,11 +31,11 @@
             </div>
             <div class="mx-auto text-gray-500" id="auth-status">
                 <p>You are not logged in. 
-                    <a href="./register.html" class=" cursor-pointer text-blue-500">Register</a>
-                     or <a href="./login.html" class=" cursor-pointer text-blue-500">Sign In</a></p>
+                    <a href="pages/register.html" class=" cursor-pointer text-blue-500">Register</a>
+                        or <a href="pages/login.html" class=" cursor-pointer text-blue-500">Sign In</a></p>
             </div>
             <div id="create_div" class="mx-auto mt-4 bg-">
-                <a href="./create_article.html" class="text-white px-3 py-1 rounded-md bg-[#00E0AC] hover:underline">Create Article</a>
+                <a href="pages/create_article.html" class="text-white px-3 py-1 rounded-md bg-[#00E0AC] hover:underline">Create Article</a>
             </div>
         </section>
         <main>
@@ -51,7 +49,11 @@
                 <button id="load-more-btn" class="bg-[#00E0AC] text-xl rounded-md px-3 py-2 text-blue-500 font-semibold cursor-pointer">Load More</button>
             </div>
         </main>
-
-            <script src="../js/main.js" type="module"></script>
+        <footer>
+            <div class="bg-[#00E0AC] text-center p-4 mt-4">
+                <p class="text-sm text-gray-700">&copy; 2024 News Platform. All rights reserved.</p>
+            </div>
+        </footer>
+        <script src="js/main.js" type="module"></script>
     </body>
 </html>
