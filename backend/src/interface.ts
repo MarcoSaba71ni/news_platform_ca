@@ -10,6 +10,12 @@ export interface UserResponse {
     email: string;
 }
 
+export interface RegisterRequest {
+    id: number;
+    email: string;
+    name: string;
+}
+
 export interface Article {
     id: number;
     title: string;

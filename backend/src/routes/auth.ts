@@ -2,7 +2,7 @@ import { Router } from "express";
 import { pool } from "../database.js";
 import { ResultSetHeader } from "mysql2";
 import { validateRegistration , validateLogin  } from "../middleware/auth-validation.js";
-import { User , UserResponse } from "../interface.js";
+import { RegisterRequest, User , UserResponse } from "../interface.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/jwt.js";
 
@@ -13,7 +13,7 @@ const router = Router();
 router.post("/register", validateRegistration , async (req, res) => {
     try {
     // Email and password validation
-        const {email , password} = req.body;
+        const {name , email , password} = req.body;
 
         // Check if user exists
         const [userExist] = await pool.execute("SELECT * FROM users where email = ?", [email]);
@@ -30,10 +30,11 @@ router.post("/register", validateRegistration , async (req, res) => {
         const hashPassword = await bcrypt.hash(password, saltRounds)
 
         // Insert New Users
-        const [newUser]: [ResultSetHeader, any] = await pool.execute("INSERT INTO USERS (email, password_hash) values (?,?)", [email , hashPassword]);
+        const [newUser]: [ResultSetHeader, any] = await pool.execute("INSERT INTO USERS (name, email, password_hash) values (?,?,?)", [name, email , hashPassword]);
 
-            const UserResponse: UserResponse = {
+            const userResponse: RegisterRequest = {
             id: newUser.insertId,
+            name,
             email,
     };
 
