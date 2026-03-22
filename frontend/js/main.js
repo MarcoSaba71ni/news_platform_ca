@@ -33,6 +33,6 @@ if (logoutBtn) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');   
         alert('You have been logged out');
-        window.location.href = '../pages/index.html';
+        window.location.href = 'index.html';
     });
 };

@@ -29,21 +29,18 @@ export function renderArticles(articles) {
     );
 
 
+        articleWrapper.addEventListener('click', () => {
+            window.location.href = `pages/article.html?id=${article.id}`;
+        });
+
         // Image (only if media_url exists)
         if (article.media_url) {
-            const imgDiv = document.createElement('a');
-            imgDiv.classList.add('article-image');
-            imgDiv.addEventListener('click', () => {
-                window.location.href = `article.html?id=${article.id}`;
-            });
-
             const img = document.createElement('img');
             img.src = article.media_url || 'https://placehold.co/800x400/png?text=No+Image';
             img.alt = article.media_alt || article.title;
             img.classList.add('w-full', 'h-48', 'object-cover');
 
-            imgDiv.appendChild(img);
-            articleWrapper.appendChild(imgDiv);
+            articleWrapper.appendChild(img);
         }
 
         // Content wrapper
