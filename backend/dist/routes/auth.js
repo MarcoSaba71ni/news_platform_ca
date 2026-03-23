@@ -8,7 +8,8 @@ const router = Router();
 router.post("/register", validateRegistration, async (req, res) => {
     try {
         // Email and password validation
-        const { email, password } = req.body;
+        const { name, email, password } = req.body;
+        console.log("REGISTER DATA:", name, email, password);
         // Check if user exists
         const [userExist] = await pool.execute("SELECT * FROM users where email = ?", [email]);
         const existingUser = userExist;
@@ -20,9 +21,10 @@ router.post("/register", validateRegistration, async (req, res) => {
         const saltRounds = 10;
         const hashPassword = await bcrypt.hash(password, saltRounds);
         // Insert New Users
-        const [newUser] = await pool.execute("INSERT INTO USERS (email, password_hash) values (?,?)", [email, hashPassword]);
-        const UserResponse = {
+        const [newUser] = await pool.execute("INSERT INTO USERS (name, email, password_hash) values (?,?,?)", [name, email, hashPassword]);
+        const userResponse = {
             id: newUser.insertId,
+            name,
             email,
         };
         // Success Response

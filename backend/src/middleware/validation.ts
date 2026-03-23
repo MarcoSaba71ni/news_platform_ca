@@ -2,13 +2,10 @@ import { Response , Request , NextFunction } from "express";
 
 // Validate if userId is valid
 export function validateUserId( req: Request, res: Response, next: NextFunction) {
-    
     const userId = Number(req.params.id);
-
     if (isNaN(userId)) {
         return res.status(400).json({error:"Invalid User Id"});
     };
-
     next();
 };
 
