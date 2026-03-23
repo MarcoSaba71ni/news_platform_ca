@@ -4,19 +4,17 @@ import { verifyToken } from "../utils/jwt.js";
 
 // Register Schema
 const registerSchema = z.object({
-  email: z.email("Email must be a valid email"),
-  password: z
+    name: z.string().min(2, "Name must be at least 2 characters long"),
+    email: z.string().email("Email must be a valid email"),
+    password: z
     .string()
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/,
-      "Password must be at least 8 characters long and include uppercase, lowercase, number, and a special character"
-    ),
+    .min(8, "Password must be at least 8 characters long")
 });
 
 // Login Schema
 const loginSchema = z.object({
-    email: z.email("Email must be a valid email"),
-    password: z.string()
+    email: z.string().email("Email must be a valid email"),
+    password: z.string().min(8, "Password must be at least 8 characters long")
 });
 
 //Validate register function

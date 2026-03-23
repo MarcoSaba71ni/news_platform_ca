@@ -36,16 +36,16 @@ export async function apiPost(endpoint, data) {
         },
         body: JSON.stringify(data),
     }
-
     if (token) {
         options.headers['Authorization'] = `Bearer ${token}`;
     };
-
     try {
         const response = await fetch(`${API_BASE}${endpoint}`, options);
-    if (!response.ok) {
-        throw new Error(response.message || 'Request failed');
-    }
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log("BACKEND ERROR:", errorData);
+            throw new Error( errorData.error || errorData.message || `HTTP error! status: ${response.status}`);
+        };
         const responseData = await response.json();
         console.log('API POST response data:', responseData);
         return { status: response.status, data: responseData };

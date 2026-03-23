@@ -14,6 +14,7 @@ router.post("/register", validateRegistration , async (req, res) => {
     try {
     // Email and password validation
         const {name , email , password} = req.body;
+        console.log("REGISTER DATA:", name , email , password);
 
         // Check if user exists
         const [userExist] = await pool.execute("SELECT * FROM users where email = ?", [email]);
@@ -36,9 +37,7 @@ router.post("/register", validateRegistration , async (req, res) => {
             id: newUser.insertId,
             name,
             email,
-    };
-
-        
+        };
         // Success Response
         res.status(201). json({
             message: "User registered successfully!",
