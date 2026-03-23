@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { pool } from "./database.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import userRouter from "./routes/users.js";
@@ -37,7 +38,9 @@ app.use("/auth", authRouter);
 app.get("/test-error", (req, res) => {
     throw new Error("This is a test error!");
 });
-//Starts the server and listens for incoming requests
+pool.getConnection()
+    .then(() => console.log("✅ Connected to Railway MySQL"))
+    .catch(err => console.error("❌ Database connection failed:", err));
 app.listen(PORT, () => {
     console.log(`Hello my newest server http://localhost:${PORT}`);
 });
