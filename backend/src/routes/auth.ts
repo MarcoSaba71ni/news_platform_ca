@@ -31,7 +31,7 @@ router.post("/register", validateRegistration , async (req, res) => {
         const hashPassword = await bcrypt.hash(password, saltRounds)
 
         // Insert New Users
-        const [newUser]: [ResultSetHeader, any] = await pool.execute("INSERT INTO USERS (name, email, password_hash) values (?,?,?)", [name, email , hashPassword]);
+        const [newUser]: [ResultSetHeader, any] = await pool.execute("INSERT INTO users (name, email, password_hash) values (?,?,?)", [name, email , hashPassword]);
 
             const userResponse: RegisterRequest = {
             id: newUser.insertId,
