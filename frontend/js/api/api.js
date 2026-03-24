@@ -43,9 +43,9 @@ export async function apiPost(endpoint, data) {
         const response = await fetch(`${API_BASE}${endpoint}`, options);
         if (!response.ok) {
             const errorData = await response.json();
-            console.log("BACKEND ERROR:", errorData);
-            throw new Error( errorData.error || errorData.message || `HTTP error! status: ${response.status}`);
-        };
+            console.log("BACKEND ERROR:", errorData.error || errorData.message || "Unknown error");
+            throw errorData.error || errorData.message || new Error(`HTTP error! status: ${response.status}`);
+        }
         const responseData = await response.json();
         console.log('API POST response data:', responseData);
         return { status: response.status, data: responseData };

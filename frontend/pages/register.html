@@ -28,7 +28,7 @@
     >
 
         <!-- Username -->
-        <div class="w-[300px] flex flex-col gap-1">
+        <div class="w-[300px] flex flex-col">
         <label for="name" class="text-left text-sm">Username</label>
         <input
             type="text"
@@ -37,10 +37,11 @@
             placeholder="Write your username"
             class="h-[35px] bg-[#1B0D6F] text-white border border-black rounded-md px-3"
         />
+        <span id="name-span" class=" hidden font-semibold text-sm"></span>
         </div>
 
         <!-- Email -->
-        <div class="w-[300px] flex flex-col gap-1">
+        <div class="w-[300px] flex flex-col">
         <label for="email" class="text-left text-sm">Email</label>
         <input
             type="email"
@@ -49,10 +50,11 @@
             placeholder="Write your email"
             class="h-[35px] bg-[#1B0D6F] text-white border border-black rounded-md px-3"
         />
+        <span id="email-span" class=" hidden font-semibold text-sm"></span>
         </div>
 
         <!-- Password -->
-        <div class="w-[300px] flex flex-col gap-1">
+        <div class="w-[300px] flex flex-col">
         <label for="password" class="text-left text-sm">Password</label>
         <input
             type="password"
@@ -61,13 +63,14 @@
             placeholder="Write your password"
             class="h-[35px] bg-[#1B0D6F] text-white border border-black rounded-md px-3"
         />
+        <span id="password-span" class=" hidden font-semibold text-sm"></span>
+        <span id="general-span" class=" hidden font-semibold text-red-500 text-sm"></span>
         </div>
-
         <!-- Button -->
         <button
         type="submit"
         id="register-btn"
-        class="mt-4 w-[105px] h-[50px] rounded-xl text-[22px] bg-[#1B0D6F]
+        class="mt-4 w-auto p-2 rounded-xl text-[22px] bg-[#1B0D6F]
                 hover:bg-[#d9d7df] text-white hover:text-[#1B0D6F]
                 transition-colors cursor-pointer"
         >
