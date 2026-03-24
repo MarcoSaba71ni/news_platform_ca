@@ -5,6 +5,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>News Platform || Main Page</title>
         <link rel="stylesheet" href="css/output.css">
+        <style>
+            #create_div {
+                min-width: 20rem;
+            }
+
+            #create-article-msg {
+                width: 100%;
+                margin-top: 0;
+                padding: 0 1rem;
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                transform: translateY(-10px) scale(0.98);
+                transform-origin: top center;
+                transition:
+                    max-height 240ms ease,
+                    opacity 220ms ease,
+                    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+                    margin-top 240ms ease,
+                    padding 240ms ease;
+            }
+
+            #create-article-msg.is-visible {
+                margin-top: 0.85rem;
+                padding: 0.75rem 1rem;
+                max-height: 5rem;
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        </style>
     </head>
     <body class=" min-h-screen">
         <header class="relative p-2 bg-[#00E0AC] flex items-center justify-center">
@@ -34,8 +64,15 @@
                     <a href="pages/register.html" class=" cursor-pointer text-blue-500">Register</a>
                         or <a href="pages/login.html" class=" cursor-pointer text-blue-500">Sign In</a></p>
             </div>
-            <div id="create_div" class="mx-auto mt-4 bg-">
-                <a href="pages/create_article.html" class="text-white px-3 py-1 rounded-md bg-[#00E0AC] hover:underline">Create Article</a>
+            <div id="create_div" class="mx-auto mt-4 flex flex-col items-center">
+                <button
+                    id="create-article-btn"
+                    class="text-white px-3 cursor-pointer py-1 rounded-md bg-[#00E0AC] hover:bg-[#00C89F]">
+                    Create Article
+                </button>
+                <span 
+                id="create-article-msg"
+                class="rounded-xl border border-[#00E0AC] bg-white/85 text-sm font-medium text-[#1B0D6F] shadow-sm backdrop-blur-sm">You are not logged in. Sign in to create an article.</span>
             </div>
         </section>
         <main>
