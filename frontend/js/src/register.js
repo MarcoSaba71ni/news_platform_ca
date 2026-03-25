@@ -70,7 +70,7 @@ registerForm.addEventListener("submit", async (event) => {
             (input) => (input.disabled = true)
         );
 
-        await registerUser(userData);
+        await registerUser(userData);g
 
         alert("Registration successful. Redirecting to login.");
         window.location.href = "../pages/login.html";
