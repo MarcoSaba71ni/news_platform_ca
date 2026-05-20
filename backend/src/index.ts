@@ -2,7 +2,7 @@ import { Response, Request , NextFunction } from "express";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { pool } from "./database.js";
+import { pool, checkDatabaseHealth } from "./database.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import userRouter from "./routes/users.js";
@@ -45,6 +45,16 @@ app.use("/users", userRouter);
 app.use("/articles", articleRouter);
 app.use("/auth", authRouter);
 
+
+// Health check endpoint — used by Railway to monitor service availability
+app.get("/health", async (req, res) => {
+  const healthy = await checkDatabaseHealth();
+  if (healthy) {
+    res.status(200).json({ status: "ok", database: "connected" });
+  } else {
+    res.status(503).json({ status: "error", database: "unavailable" });
+  }
+});
 
 // Route example error
 app.get("/test-error", (req, res) => {

@@ -8,6 +8,44 @@ import { generateToken } from "../utils/jwt.js";
 
 const router = Router();
 
+/** Error codes that indicate a lost or refused connection — safe to retry. */
+const RETRYABLE_CODES = new Set([
+  "PROTOCOL_CONNECTION_LOST",
+  "ECONNREFUSED",
+  "ECONNRESET",
+]);
+
+/**
+ * Wraps pool.execute() with exponential-backoff retry logic.
+ * Only retries on transient connection errors; all other errors are re-thrown
+ * immediately.
+ */
+async function executeWithRetry(
+  sql: string,
+  params: any[],
+  maxRetries = 3,
+  initialDelayMs = 500
+): Promise<any> {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
+    try {
+      return await pool.execute(sql, params);
+    } catch (err: any) {
+      const isRetryable = err?.code && RETRYABLE_CODES.has(err.code);
+      if (!isRetryable || attempt > maxRetries) {
+        throw err;
+      }
+      lastError = err;
+      const delay = initialDelayMs * Math.pow(2, attempt - 1);
+      console.warn(
+        `⚠️  DB query failed (${err.code}), retrying in ${delay}ms… (attempt ${attempt}/${maxRetries})`
+      );
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+  throw lastError;
+}
+
 // Authorization endpoints
 
 router.post("/register", validateRegistration , async (req, res) => {
@@ -17,7 +55,7 @@ router.post("/register", validateRegistration , async (req, res) => {
         console.log("REGISTER DATA:", name , email , password);
 
         // Check if user exists
-        const [userExist] = await pool.execute("SELECT * FROM users where email = ?", [email]);
+        const [userExist] = await executeWithRetry("SELECT * FROM users where email = ?", [email]);
 
         const existingUser = userExist as User[];
 
@@ -31,7 +69,7 @@ router.post("/register", validateRegistration , async (req, res) => {
         const hashPassword = await bcrypt.hash(password, saltRounds)
 
         // Insert New Users
-        const [newUser]: [ResultSetHeader, any] = await pool.execute("INSERT INTO users (name, email, password_hash) values (?,?,?)", [name, email , hashPassword]);
+        const [newUser]: [ResultSetHeader, any] = await executeWithRetry("INSERT INTO users (name, email, password_hash) values (?,?,?)", [name, email , hashPassword]);
 
             const userResponse: RegisterRequest = {
             id: newUser.insertId,
@@ -58,7 +96,7 @@ router.post("/login", validateLogin , async (req, res) => {
         const {email , password} = req.body;
         // 2. Select User by email 
         // if not found error 401
-        const [rows] = await pool.execute("SELECT id, email, password_hash FROM users where email = ?", 
+        const [rows] = await executeWithRetry("SELECT id, email, password_hash FROM users where email = ?", 
             [email]
         );
 
