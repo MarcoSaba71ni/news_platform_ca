@@ -7,6 +7,44 @@ import { authenticateToken } from "../middleware/auth-validation.js";
 
 const router = Router();
 
+/** Error codes that indicate a lost or refused connection — safe to retry. */
+const RETRYABLE_CODES = new Set([
+  "PROTOCOL_CONNECTION_LOST",
+  "ECONNREFUSED",
+  "ECONNRESET",
+]);
+
+/**
+ * Wraps pool.execute() with exponential-backoff retry logic.
+ * Only retries on transient connection errors; all other errors are re-thrown
+ * immediately.
+ */
+async function executeWithRetry(
+  sql: string,
+  params: any[],
+  maxRetries = 3,
+  initialDelayMs = 500
+): Promise<any> {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
+    try {
+      return await pool.execute(sql, params);
+    } catch (err: any) {
+      const isRetryable = err?.code && RETRYABLE_CODES.has(err.code);
+      if (!isRetryable || attempt > maxRetries) {
+        throw err;
+      }
+      lastError = err;
+      const delay = initialDelayMs * Math.pow(2, attempt - 1);
+      console.warn(
+        `⚠️  DB query failed (${err.code}), retrying in ${delay}ms… (attempt ${attempt}/${maxRetries})`
+      );
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+  throw lastError;
+}
+
 /**
  * @swagger
  * /articles:
@@ -36,7 +74,7 @@ router.get("/", async (req, res) => {
     const limit = Number(req.query.limit) || 10;
     const offset = (page - 1) * limit;
 
-    const [rows] = await pool.execute(
+    const [rows] = await executeWithRetry(
       `
       SELECT 
         articles.id,
@@ -104,7 +142,7 @@ router.get("/:id", validateUserId ,  async (req, res) => {
   try {
     const articleId = Number(req.params.id);
 
-    const [rows] = await pool.execute(
+    const [rows] = await executeWithRetry(
       `
       SELECT 
         articles.id,
@@ -150,7 +188,7 @@ router.post("/", authenticateToken, validateCreateArticle, async (req, res) => {
     const { title, body, category, media_url, media_alt } = req.body;
     const user_id = req.user.id;
 
-    const [result] = await pool.execute(
+    const [result] = await executeWithRetry(
       `INSERT INTO articles (title, body, category, media_url, media_alt, user_id)
        VALUES (?, ?, ?, ?, ?, ?)`,
       [title, body, category, media_url, media_alt, user_id]

@@ -13,15 +13,52 @@ const pool: Pool = mysql.createPool({
   queueLimit: 0,
 });
 
-// Quick connection test (logs to Railway deployment logs)
+// Log pool-level connection errors
+(pool as any).on("error", (err: NodeJS.ErrnoException) => {
+  console.error("🔥 DB POOL ERROR:", err.code, err.message);
+});
+
+// Attempt to verify the connection on startup with exponential backoff
+const MAX_INIT_ATTEMPTS = 5;
+const INIT_RETRY_BASE_MS = 1000;
+
 (async () => {
-  try {
-    const conn = await pool.getConnection();
-    console.log("✅ DB CONNECTED");
-    conn.release();
-  } catch (err) {
-    console.error("🔥 DB CONNECTION FAILED:", err);
+  for (let attempt = 1; attempt <= MAX_INIT_ATTEMPTS; attempt++) {
+    try {
+      const conn = await pool.getConnection();
+      console.log("✅ DB CONNECTED");
+      conn.release();
+      return;
+    } catch (err) {
+      const isLastAttempt = attempt === MAX_INIT_ATTEMPTS;
+      console.error(
+        `🔥 DB CONNECTION FAILED (attempt ${attempt}/${MAX_INIT_ATTEMPTS}):`,
+        err
+      );
+      if (isLastAttempt) {
+        console.error("🔥 All DB connection attempts exhausted at startup.");
+        return;
+      }
+      const delay = INIT_RETRY_BASE_MS * Math.pow(2, attempt - 1);
+      console.log(`⏳ Retrying DB connection in ${delay}ms...`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
   }
 })();
 
-export { pool };
+/**
+ * Verifies that the pool can acquire a live connection.
+ * Returns true if healthy, false otherwise.
+ */
+async function checkDatabaseHealth(): Promise<boolean> {
+  try {
+    const conn = await pool.getConnection();
+    await conn.ping();
+    conn.release();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export { pool, checkDatabaseHealth };
